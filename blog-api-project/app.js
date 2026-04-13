@@ -5,7 +5,7 @@ const postRoutes = require("./routes/posts");
 
 const PORT = 3000;
 
-console.log(`Server starting... ${PORT} PORT`)
+console.log(`Server starting... PORT ${PORT}`)
 
 app.use(express.json());         
 
@@ -15,8 +15,9 @@ app.use((req, res, next) => {
 });
 
 // // Mounts
-app.use("/api/posts", postRoutes);
-app.use("/api/users", userRoutes);
+// waiting for these routes to be established
+// app.use("/api/posts", postRoutes);
+// app.use("/api/users", userRoutes);
 
 // // add rootroute (/) with API documentation
 app.get("/", (req, res) => {
