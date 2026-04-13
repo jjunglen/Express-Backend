@@ -45,7 +45,7 @@ const getPostsById = (req, res) => {
 
     // make sure its a valid post
     if (!getPost) {
-        res.status(404).json({
+        return res.status(404).json({
         error: "Post not found"
         })
     }
@@ -55,7 +55,7 @@ const getPostsById = (req, res) => {
 
 const createPost = (req, res) => {
 
-    const { title, content, author, published } = req.params
+    const { title, content, author, published } = req.body;
 
     // Generate new post
     const newPost = {
@@ -64,7 +64,7 @@ const createPost = (req, res) => {
         content,
         author,
         published: published || false,
-        createAt: new Date().toISOString
+        createAt: new Date().toISOString(),
     }
 
     // add post to the posts array
@@ -74,8 +74,55 @@ const createPost = (req, res) => {
 
 }
 
+const updatedPost = (req, res) => {
+    const { id } = req.params;
+    const { title, content, author } = req.body;
+
+    const index = posts.findIndex((post) => {
+        return post.id === parseInt(id);
+    })
+
+    if (index === -1) {
+        return res.status(404).json({
+            error: "404: Post not found"
+        });
+    };
+
+    posts[index] = {
+        ...posts[index],
+        title: title || posts[index].title,
+        content: content || posts[index].content,
+        author: author || posts[index].author,
+        updateAt: new Date().toISOString(),
+    }
+
+    res.json(posts[index])
+}
+
+const deletePost = (req, res) => {
+    const { id } = req.params;
+    const index = posts.findIndex((post) => {
+        return post.id === parseInt(id);
+    });
+    
+    if (index === -1) {
+        return res.status(404).json({
+            error: "404: Post not found"
+        });
+    };
+
+    const deletedPost = posts.splice(index, 1)[0];
+    
+    res.json({
+        message: " This post has been deleted",
+        post: deletedPost,
+    })
+}
+
 module.exports = {
     getAllPosts,
     getPostsById,
     createPost,
+    updatedPost,
+    deletePost
 }
