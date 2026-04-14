@@ -74,7 +74,7 @@ const createPost = (req, res) => {
 
 }
 
-const updatedPost = (req, res) => {
+const updatePost = (req, res) => {
     const { id } = req.params;
     const { title, content, author } = req.body;
 
@@ -123,6 +123,6 @@ module.exports = {
     getAllPosts,
     getPostsById,
     createPost,
-    updatedPost,
+    updatePost,
     deletePost
 }

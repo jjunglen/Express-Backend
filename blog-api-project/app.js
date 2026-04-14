@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const userRoutes = require("./routes/users");
 const postRoutes = require("./routes/posts");
+const errorHandler = require("./middleware/errorHandler");
+
 
 const PORT = 3000;
 
@@ -16,8 +18,8 @@ app.use((req, res, next) => {
 
 // // Mounts
 // waiting for these routes to be established
-// app.use("/api/posts", postRoutes);
-// app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
 
 // // add rootroute (/) with API documentation
 app.get("/", (req, res) => {
@@ -49,6 +51,7 @@ app.use((err, req, res, next) => {
     })
 })
 
+app.use(errorHandler);
 
 app.listen(3000, () => {
     console.log("Servers running on port 3000");
