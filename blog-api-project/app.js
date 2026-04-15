@@ -21,6 +21,13 @@ app.use((req, res, next) => {
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
 
+// Health
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        success: "Server is healthy",
+    })
+});
+
 // // add rootroute (/) with API documentation
 app.get("/", (req, res) => {
     res.json({
@@ -29,27 +36,12 @@ app.get("/", (req, res) => {
     })
 })
 
-// Health
-app.get("/health", (req, res) => {
-    res.status(200).json({
-        success: "Server is healthy",
-    })
-});
-
 // Client side error
 app.use((req, res) => {
     res.status(404).json({
         error: "404: Oops, this route is not found."
     });
 });
-
-// Server side error
-app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).json({
-        error: "Server side error on our end!"
-    })
-})
 
 app.use(errorHandler);
 
